@@ -13,9 +13,9 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $movies = DB::table('movies')->get();
+        $movies = DB::table('movies')->paginate(8);
 
-        return ['movies'=>$movies];
+        return $movies;
     }
 
     /**
