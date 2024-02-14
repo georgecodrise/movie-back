@@ -23,7 +23,7 @@ class Authcontroller extends Controller
 
         return ['message' => 'Usuario creado'];
 
-        return dd($user);
+        //return dd($user);
 
     }
 
@@ -38,13 +38,28 @@ class Authcontroller extends Controller
                'errors' => ['Email o Contraseña incorrectos']
                
             ],422);
+
+            // return $request -> json([
+            //     'success'=>false,
+            //     'data'=> null,
+            //     'message'=>'Email o Contraseña incorrectos'
+            // ], 422);
         }
 
         $user = Auth::user();
-        return[
-            'token' => $user->createToken('token')->plainTextToken,
-            'user' => $user,
-         ];
+         return[
+             'token' => $user->createToken('token')->plainTextToken,
+             'user' => $user,
+          ];
+
+        //  return $request -> json([
+        //     'success'=>true,
+        //     'data'=>[
+        //             'token' => $user->createToken('token')->plainTextToken,
+        //             'user' => $user
+        //     ],
+        //     'message'=>'Incio Correcto'
+        //     ],200);
 
     }
 

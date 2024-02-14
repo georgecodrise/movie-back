@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class MovieController extends Controller
+class SalaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $movies = DB::table('movies')->paginate(8);
+        $salas = DB::table('salas')->get()->all();
 
-        return $movies;
+        return $salas;
     }
 
     /**
@@ -23,15 +22,7 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        $movie = new Movie();
-
-        $movie->name = $request-> name;
-        $movie->genre = $request-> genre;
-        $movie->year = $request-> year;
-        $movie->save();
-
-        return ['movie'=>$movie];
-
+        //
     }
 
     /**
@@ -56,12 +47,5 @@ class MovieController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function listar()
-    {
-        $movies = DB::table('movies')->get()->all();
-
-        return $movies;
     }
 }
