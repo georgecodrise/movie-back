@@ -97,7 +97,7 @@ class CarteleraController extends Controller
         $cartelera = DB::table('carteleras')
                          ->join('movies','movies.id','=','carteleras.movie_id')
                          ->join('salas','salas.id','=','carteleras.sala_id')
-                         ->select('carteleras.id','movies.name as pelicula','salas.name as sala',
+                         ->select('carteleras.id','carteleras.movie_id','movies.name as pelicula','carteleras.sala_id','salas.name as sala',
                                   'carteleras.inicio','carteleras.fin')
                          ->where('carteleras.id',$id)
                          ->get();
