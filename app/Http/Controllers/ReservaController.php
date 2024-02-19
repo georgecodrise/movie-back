@@ -14,7 +14,12 @@ class ReservaController extends Controller
      */
     public function index()
     {
-        //
+        
+        DB::table('revervas')
+            ->join('carteleras','carteleras.id','=','reservas.cartelera_id')
+            ->select('reservas.id','')
+            ->get(); 
+
     }
 
     /**
@@ -22,41 +27,72 @@ class ReservaController extends Controller
      */
     public function store(Request $request)
     {
-        $reserva = new Reserva();
+
         $id = $request->id;
         $cant = $request->cantTicket;
-
+        
+        $reserva = new Reserva();
         $reserva->cartelera_id = $request->id;
         $reserva->cant_asientos = $request->cantTicket;
-        
-        $total = DB::table('salas')->select('asientos_total')->where('id',$id)->first();
-        $total_asientos = $total->asientos_total;
 
-        $actual = DB::table('salas')->select('asientos_reservados')->where('id',$id)->first();
-        $num = $actual->asientos_reservados; //asientos reservados
+        try {
+
+        $total = DB::table('carteleras')
+                     ->select('asientos')
+                     ->where('id',$id)
+                     ->first();
+                    
+        $total_asientos = $total->asientos;
+
+        $actual = DB::table('carteleras')
+                      ->select('asientos_reservados')
+                      ->where('id',$id)
+                      ->first();      
+        
+        if ($actual===null){
+            $num=0;
+        }else{      
+            $num = $actual->asientos_reservados; //asientos reservados
+        }
+
         $sum = $cant + $num; //suma cantidad reserva + asientos reservados
         $disponibles = $total_asientos - $num;
-
+        
+            
         if(  $total_asientos >= $sum ){
             $reserva->save();
-            $sala_upd = DB::table('salas')->where('id',$id)->update(['asientos_reservados'=>$sum]);
-        }else{
-
+            $sala_upd = DB::table('carteleras')->where('id',$id)->update(['asientos_reservados'=>$sum]);
+        }else{    
             return response([
                
                 'errors' => [
                   "No hay asientos disponibles para esta función",
                   "Asientos disponibles: ".$disponibles],
-
-                
              ],422);
         }
+            
+        } catch (\Throwable $th) {
+            return response([
+                'errors' => [
+                    'Ah ocurrido un error en el servidor! NO se proceso la solicitud',
+                    $th
+                ]
+            ],422);
+        }
+        
+        
 
-       return[ 
-            'reserva'=>$reserva,
-            'cant_upd'=>$sala_upd,
-       ];
-
+        
+        
+        
+        
+        
+       return $total_asientos;
+       
+    //    return[ 
+    //         'message' => 'Correcto'
+    //    ];
+       
 
     }
 

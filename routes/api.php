@@ -35,8 +35,8 @@ Route::apiResources([
 
 ]);
 
-Route::get('/movies-all',[MovieController::class,'listar']);
 
+Route::get('/movies-all',[MovieController::class,'listar']);
 
 Route::post('/register',[Authcontroller::class,'register']);
 Route::post('/login',[AuthController::class,'login']);

@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('salas', function (Blueprint $table) {
-            $table->integer('asientos_total')->after('name');
-
+        Schema::table('carteleras', function (Blueprint $table) {
+            $table->dateTime('inicio')->after('sala_id');
         });
     }
 
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('salas', function (Blueprint $table) {
-          $table->dropColumn('asientos_total');
+        Schema::table('carteleras', function (Blueprint $table) {
+            $table->dropColumn('incio');
         });
     }
 };

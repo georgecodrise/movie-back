@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('movie_id')->constrained()->onDelete('cascade');
             $table->foreignId('sala_id')->constrained()->onDelete('cascade');
-            $table->date('fecha');
-            $table->time('hora');
             $table->timestamps();
         });
     }
