@@ -36,7 +36,10 @@ Route::apiResources([
 ]);
 
 
+
 Route::get('/movies-all',[MovieController::class,'listar']);
+
+Route::patch('/cartelera/edit/{id}',[CarteleraController::class,'estado']);
 
 Route::post('/register',[Authcontroller::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
